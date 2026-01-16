@@ -1,0 +1,76 @@
+package de.oks.g52shop.domain.entity;
+
+import jakarta.persistence.*;
+
+import java.math.BigDecimal;
+import java.util.Objects;
+
+@Entity
+@Table(name = "product")
+public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private long id;
+    @Column(name = "title")
+    private String title;
+    @Column(name = "price")
+    private BigDecimal price;
+    @Column(name = "active")
+    private boolean active;
+
+    public Product() {
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return id == product.id && active == product.active && Objects.equals(title, product.title) && Objects.equals(price, product.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, price, active);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Produkt: ID - %d, Name - %s, Preis - %.2f, aktive - %s.",
+                id, title, price, active ? "ja" : "nein");
+    }
+}
