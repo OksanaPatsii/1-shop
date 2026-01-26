@@ -1,7 +1,6 @@
 package de.oks.g52shop.domain.entity;
 
 import jakarta.persistence.*;
-import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Objects;
@@ -55,7 +54,7 @@ public class Role implements GrantedAuthority {
     }
 
     @Override
-    public @Nullable String getAuthority() {
+    public String getAuthority() {
         return title;
     }
 }

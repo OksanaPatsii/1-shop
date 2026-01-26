@@ -1,7 +1,6 @@
 package de.oks.g52shop.security;
 
 import de.oks.g52shop.domain.entity.Role;
-import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -34,33 +33,22 @@ public class AuthInfo implements Authentication {
     }
 
     @Override
-    public String getName() {
-        return username;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Authentifizierungsinformationen: authentifiziert -%b, name - %s, role - %s.",
-                authenticated, username, roles);
-    }
-
-    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
     }
 
     @Override
-    public @Nullable Object getCredentials() {
+    public Object getCredentials() {
         return null;
     }
 
     @Override
-    public @Nullable Object getDetails() {
+    public Object getDetails() {
         return null;
     }
 
     @Override
-    public @Nullable Object getPrincipal() {
+    public Object getPrincipal() {
         return username;
     }
 
@@ -71,6 +59,18 @@ public class AuthInfo implements Authentication {
 
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
-        this.authenticated = authenticated;
+        this.authenticated = isAuthenticated;
+
+    }
+
+    @Override
+    public String getName() {
+        return username;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Auth info: autorisiert - %b, Name - %s, Role - %s.",
+                authenticated, username, roles);
     }
 }
