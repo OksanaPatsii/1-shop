@@ -5,6 +5,8 @@ import de.oks.g52shop.domain.entity.Product;
 import de.oks.g52shop.repository.ProductRepository;
 import de.oks.g52shop.service.interfaces.ProductService;
 import de.oks.g52shop.service.mapping.ProductMappingService;
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,6 +17,9 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository repository;
     private final ProductMappingService mappingService;
+
+   // private final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
 
     public ProductServiceImpl(ProductRepository repository, ProductMappingService mappingService) {
         this.repository = repository;
@@ -30,6 +35,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> getAllActiveProducts() {
+
+//        logger.info("Request for all products received");
+//        logger.warn("Request for all products received");
+//        logger.error("Request for all products received");
+
+
         return repository.findAll()
                 .stream()
                 .filter(Product::isActive)
@@ -42,7 +53,7 @@ public class ProductServiceImpl implements ProductService {
         Product product = repository.findById(id).orElse(null);
 
         if (product == null || !product.isActive()) {
-            return null;
+            throw new RuntimeException("Product not found");
         }
 
         return mappingService.mapEntityToDto(product);
