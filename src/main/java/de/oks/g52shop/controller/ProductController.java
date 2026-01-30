@@ -2,6 +2,8 @@ package de.oks.g52shop.controller;
 
 
 import de.oks.g52shop.domain.dto.ProductDto;
+import de.oks.g52shop.exception_handling.Response;
+import de.oks.g52shop.exception_handling.exceptions.ProductNotFoundException;
 import de.oks.g52shop.service.interfaces.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -114,5 +116,10 @@ public class ProductController {
     public BigDecimal getProductsAveragePrice() {
         return service.getAllActiveProductsAveragePrice();
     }
+
+//    @ExceptionHandler(ProductNotFoundException.class)
+//    public Response handleException(ProductNotFoundException e) {
+//        return new Response(e.getMessage());
+//    }
 
 }

@@ -1,0 +1,24 @@
+package de.oks.g52shop.exception_handling;
+
+import de.oks.g52shop.exception_handling.exceptions.ProductNotFoundException;
+import de.oks.g52shop.exception_handling.exceptions.ProductValidationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<Response> handleException(ProductNotFoundException e) {
+        Response response = new Response(e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProductValidationException.class)
+    public ResponseEntity<Response> handleException(ProductValidationException e) {
+        Response response = new Response(e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+}

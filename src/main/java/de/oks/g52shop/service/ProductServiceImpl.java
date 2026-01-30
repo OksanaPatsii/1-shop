@@ -2,6 +2,8 @@ package de.oks.g52shop.service;
 
 import de.oks.g52shop.domain.dto.ProductDto;
 import de.oks.g52shop.domain.entity.Product;
+import de.oks.g52shop.exception_handling.exceptions.ProductNotFoundException;
+import de.oks.g52shop.exception_handling.exceptions.ProductValidationException;
 import de.oks.g52shop.repository.ProductRepository;
 import de.oks.g52shop.service.interfaces.ProductService;
 import de.oks.g52shop.service.mapping.ProductMappingService;
@@ -18,7 +20,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository repository;
     private final ProductMappingService mappingService;
 
-   // private final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+    // private final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
 
     public ProductServiceImpl(ProductRepository repository, ProductMappingService mappingService) {
@@ -28,9 +30,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto save(ProductDto dto) {
+        try {
         Product entity = mappingService.mapDtoToEntity(dto);
         entity = repository.save(entity);
         return mappingService.mapEntityToDto(entity);
+        } catch (Exception e) {
+            throw new ProductValidationException(e);
+        }
     }
 
     @Override
@@ -50,13 +56,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto getById(Long id) {
-        Product product = repository.findById(id).orElse(null);
+//        Product product = repository.findById(id).orElse(null);
+//
+//        if (product == null || !product.isActive()) {
+//            throw new ProductNotFoundException(id);
+//        }
+//
+//        return mappingService.mapEntityToDto(product);
 
-        if (product == null || !product.isActive()) {
-            throw new RuntimeException("Product not found");
-        }
 
-        return mappingService.mapEntityToDto(product);
+        return mappingService.mapEntityToDto(repository.findById(id)
+                .filter(Product::isActive)
+                .orElseThrow(() -> new ProductNotFoundException(id)));
     }
 
     @Override

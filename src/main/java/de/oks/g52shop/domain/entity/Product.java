@@ -1,6 +1,7 @@
 package de.oks.g52shop.domain.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -14,8 +15,23 @@ public class Product {
     @Column(name = "id")
     private Long id;
     @Column(name = "title")
+    @NotNull(message = "Product title cannot be null")
+    @NotBlank(message = "Product title cannot be empty")
+    @Pattern(
+            regexp = "[A-Z][a-z ]{2,}",
+            message = "Product title should be at least tree characters length and start with capital letter"
+    )
     private String title;
     @Column(name = "price")
+    @DecimalMin(
+            value = "1.00",
+            message = "Product price should be greater or equal than 1"
+    )
+    @DecimalMax(
+            value = "1000.00",
+            inclusive = false,
+            message = "Product price should be lesser than 1000"
+    )
     private BigDecimal price;
     @Column(name = "active")
     private boolean active;
