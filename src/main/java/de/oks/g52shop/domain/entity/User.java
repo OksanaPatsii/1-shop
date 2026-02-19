@@ -17,10 +17,18 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @Column(name = "username")
     private String username;
+
     @Column(name = "password")
     private String password;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "active")
+    private boolean active;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -31,6 +39,22 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
     public User() {
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public Long getId() {
@@ -72,21 +96,20 @@ public class User implements UserDetails {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
+        return active == user.active && Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, roles);
+        return Objects.hash(id, username, password, email, active, roles);
     }
 
     @Override
     public String toString() {
-        return String.format("BenutzerÖ: ID - %d, Login - %s, Rolle - %s.",
-                id, username, roles);
+        return String.format("Benutzer: ID - %d, Login - %s, email - %s, active - %s, Rolle - %s.",
+                id, username, email, active ? "ja" : "nein", roles);
     }
 
 //    public static void main(String[] args) {

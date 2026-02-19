@@ -41,13 +41,13 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
 
                 .authorizeHttpRequests(x -> x
-//                        .requestMatchers(HttpMethod.GET, "/products/all").permitAll()
-//                        .requestMatchers(HttpMethod.GET, "/products/").hasAnyRole("ADMIN", "USER")
-//                        .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/refresh").permitAll()
-//                        .anyRequest().authenticated()
-                        // TODO Kommentieren Sie den Code wieder aus.
-                                .anyRequest().permitAll()
+                        .requestMatchers(HttpMethod.GET, "/products/all").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/products/").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/refresh").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/register").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/hello").permitAll()
+                        .anyRequest().authenticated()
 
                 )
                 .addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class)
