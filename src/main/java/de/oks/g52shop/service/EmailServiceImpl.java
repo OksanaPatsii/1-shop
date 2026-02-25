@@ -42,7 +42,7 @@ public class EmailServiceImpl implements EmailService {
             helper.setFrom("oksana@gmail.com");
             helper.setTo(user.getEmail());
             helper.setSubject("Registration");
-            helper.setText(text);
+            helper.setText(text, true);
 
             sender.send(message);
         } catch (Exception e) {

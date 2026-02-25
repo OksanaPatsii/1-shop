@@ -18,6 +18,7 @@ public class Customer {
 
     @Column(name = "active")
     private boolean active;
+
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     private Cart cart;
 

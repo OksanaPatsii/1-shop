@@ -1,5 +1,6 @@
 package de.oks.g52shop.exception_handling;
 
+import de.oks.g52shop.exception_handling.exceptions.CustomerNotFoundException;
 import de.oks.g52shop.exception_handling.exceptions.ProductNotFoundException;
 import de.oks.g52shop.exception_handling.exceptions.ProductValidationException;
 import org.springframework.http.HttpStatus;
@@ -20,5 +21,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Response> handleException(ProductValidationException e) {
         Response response = new Response(e.getMessage());
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(CustomerNotFoundException.class)
+    public ResponseEntity<Response> handleException(CustomerNotFoundException e) {
+        Response response = new Response(e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 }

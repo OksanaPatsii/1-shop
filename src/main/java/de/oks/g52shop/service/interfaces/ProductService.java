@@ -1,6 +1,7 @@
 package de.oks.g52shop.service.interfaces;
 
 import de.oks.g52shop.domain.dto.ProductDto;
+import de.oks.g52shop.domain.entity.Product;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,6 +17,9 @@ public interface ProductService {
 
     // Gibt ein aktives Produkt anhand seiner ID aus der Datenbank zurück.
     ProductDto getById(Long id);
+
+    //   Ein aktives Produkt aus der Datenbank abrufen
+    Product getActiveProductEntityById(Long id);
 
     // Aktualisiert ein Produkt in der Datenbank anhand seiner ID.
     void update(ProductDto product);
@@ -37,4 +41,7 @@ public interface ProductService {
 
     // Gibt den Durchschnittspreis eines Produkts in der Datenbank (aktiv) zurück.
     BigDecimal getAllActiveProductsAveragePrice();
+
+    // Füge einen Link zu einem Produktbild anhand des Produktnamens hinzu
+    void attachImage(String imageUrl, String productTitle);
 }

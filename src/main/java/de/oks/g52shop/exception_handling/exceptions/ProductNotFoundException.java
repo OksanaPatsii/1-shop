@@ -9,4 +9,8 @@ public class ProductNotFoundException extends RuntimeException{
     public ProductNotFoundException(Long id) {
         super(String.format("Product with id %d not found", id));
     }
+
+       public ProductNotFoundException(String title) {
+           super(String.format("Product with title %s not found", title));
+       }
 }

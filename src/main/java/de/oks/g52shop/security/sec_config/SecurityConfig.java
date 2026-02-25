@@ -19,6 +19,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 public class SecurityConfig {
 
+    private final String ADMIN_ROLE = "ADMIN";
+    private final String USER_ROLE = "USER";
+
+
     private final TokenFilter filter;
 
     public SecurityConfig(TokenFilter filter) {
@@ -42,12 +46,15 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(x -> x
                         .requestMatchers(HttpMethod.GET, "/products/all").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/products/").hasAnyRole("ADMIN", "USER")
-                        .requestMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/products/").hasAnyRole(ADMIN_ROLE, USER_ROLE)
+                        .requestMatchers(HttpMethod.POST, "/products").hasRole(ADMIN_ROLE)
                         .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/refresh").permitAll()
                         .requestMatchers(HttpMethod.POST, "/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/hello").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(HttpMethod.POST, "/files").hasRole(ADMIN_ROLE)
+                        .requestMatchers(HttpMethod.POST, "/customers").hasRole(ADMIN_ROLE)
+                        .requestMatchers(HttpMethod.PUT, "/customers/**").hasAnyRole(ADMIN_ROLE, USER_ROLE)
+                  //      .anyRequest().authenticated()
 
                 )
                 .addFilterAfter(filter, UsernamePasswordAuthenticationFilter.class)

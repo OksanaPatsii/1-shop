@@ -12,6 +12,9 @@ public class TokenResponseDto {
         this.refreshToken = refreshToken;
     }
 
+    public TokenResponseDto() {
+    }
+
     public TokenResponseDto(String accessToken) {
         this.accessToken = accessToken;
     }
@@ -24,9 +27,16 @@ public class TokenResponseDto {
         return refreshToken;
     }
 
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TokenResponseDto that = (TokenResponseDto) o;
         return Objects.equals(accessToken, that.accessToken) && Objects.equals(refreshToken, that.refreshToken);

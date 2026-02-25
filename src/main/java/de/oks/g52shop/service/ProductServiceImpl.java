@@ -9,6 +9,7 @@ import de.oks.g52shop.service.interfaces.ProductService;
 import de.oks.g52shop.service.mapping.ProductMappingService;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -31,9 +32,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDto save(ProductDto dto) {
         try {
-        Product entity = mappingService.mapDtoToEntity(dto);
-        entity = repository.save(entity);
-        return mappingService.mapEntityToDto(entity);
+            Product entity = mappingService.mapDtoToEntity(dto);
+            entity = repository.save(entity);
+            return mappingService.mapEntityToDto(entity);
         } catch (Exception e) {
             throw new ProductValidationException(e);
         }
@@ -65,9 +66,13 @@ public class ProductServiceImpl implements ProductService {
 //        return mappingService.mapEntityToDto(product);
 
 
-        return mappingService.mapEntityToDto(repository.findById(id)
+        return mappingService.mapEntityToDto(getActiveProductEntityById(id));
+    }
+
+    public Product getActiveProductEntityById(Long id) {
+        return repository.findById(id)
                 .filter(Product::isActive)
-                .orElseThrow(() -> new ProductNotFoundException(id)));
+                .orElseThrow(() -> new ProductNotFoundException(id));
     }
 
     @Override
@@ -106,5 +111,13 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public BigDecimal getAllActiveProductsAveragePrice() {
         return null;
+    }
+
+    @Override
+    @Transactional
+    public void attachImage(String imageUrl, String productTitle) {
+        repository.findByTitle(productTitle)
+                .orElseThrow(() -> new ProductNotFoundException(productTitle))
+                .setImage(imageUrl);
     }
 }

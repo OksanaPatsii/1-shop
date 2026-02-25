@@ -17,10 +17,12 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @JsonIgnore
     @OneToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
+
     @ManyToMany
     @JoinTable(
             name = "cart_product",
